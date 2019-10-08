@@ -15,7 +15,7 @@ module.exports = {
     },
 
     update: (req) => {
-        let query = "UPDATE categories SETS ?=? WHERE id=" + req.body.id + " VALUES (\'" + req.body.updateName + "\', \'" + req.body.updateValue + "\')";
+        let query = "UPDATE categories SETS " + req.body.updateName + "=? WHERE id=? VALUES (\'" + req.body.updateValue + "\', \'" + req.body.id + "\')"; 
         return queryPromise(query);
     },
 
