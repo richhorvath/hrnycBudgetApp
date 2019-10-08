@@ -1,4 +1,4 @@
-const connection = require('../../db/index');
+const {connection} = require('../../db/index');
 const Promise = require('bluebird');
 
 const queryPromise = Promise.promisify(connection.query);
