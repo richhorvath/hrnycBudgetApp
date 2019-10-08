@@ -1,6 +1,15 @@
+const {get, add, update, remove} = require("../models/accounts");
+
 module.exports = {
   add: (req, res) => {
-    console.log("adding account");
+    add(req)
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log("error in account add controller: ", error);
+      res.sendStatus(500);
+    })
   },
   get: (req, res) => {
     console.log("getting accounts");
