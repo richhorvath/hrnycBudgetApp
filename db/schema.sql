@@ -25,7 +25,7 @@ CREATE TABLE accounts (
     id int NOT NULL AUTO_INCREMENT,
     description varchar(50) NOT NULL,
     account_type varchar(50) NOT NULL,
-    total decimal(10, 2) NOT NULL,
+    total decimal(10, 2) default 0 NOT NULL,
     PRIMARY KEY (id)
 );
 
