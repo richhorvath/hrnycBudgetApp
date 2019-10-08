@@ -6,7 +6,7 @@ USE budget;
 
 CREATE TABLE transact (
     id int NOT NULL AUTO_INCREMENT,
-    date date,
+    date DATETIME DEFAULT CURRENT_TIMESTAMP,
     amount decimal(10, 2) NOT NULL,
     description varchar(50) NOT NULL,
     category_id int,

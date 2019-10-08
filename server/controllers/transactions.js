@@ -2,6 +2,7 @@ const {get, add, update, remove} = require("../models/transactions.js");
 
 module.exports = {
   add: (req, res) => {
+    console.log("request body: ", req.body)
     add(req)
     .then(() => {
       res.sendStatus(200);

@@ -1,7 +1,7 @@
 const {connection} = require('../../db/index');
 const Promise = require('bluebird');
-
-const queryPromise = Promise.promisify(connection.query);
+const SqlString = require('sqlstring');
+const queryPromise = Promise.promisify(connection.query).bind(connection);
 
 module.exports = {
     get: () => {
@@ -10,17 +10,18 @@ module.exports = {
     },
 
     add: (req) => {
-        let query = "INSERT INTO categories SETS ?";
-        return queryPromise(query, req.body);
+        let query = SqlString.format("INSERT INTO categories SET ?", req.body);
+        return queryPromise(query);
     },
 
     update: (req) => {
-        let query = "UPDATE categories SETS " + req.body.updateName + "=? WHERE id=? VALUES (\'" + req.body.updateValue + "\', \'" + req.body.id + "\')"; 
+        let updates = [req.body.updateName,  req.body.updateValue, req.body.id]
+        let query = SqlString.format("UPDATE categories SET ??=? WHERE id=?", updates); 
         return queryPromise(query);
     },
 
     remove: (req) => {
-        let query = "DELETE FROM categories WHERE id=" + req.body.id;
+        let query = SqlString.format("DELETE FROM categories WHERE id=?", req.body.id);
         return queryPromise(query);
     }
 }
