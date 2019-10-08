@@ -1,14 +1,44 @@
+const {get, add, update, remove} = require("../models/transactions.js");
+
 module.exports = {
   add: (req, res) => {
-    console.log("adding transaction");
+    add(req)
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log("error in transactions add controller: ", error);
+      res.sendStatus(500);
+    })
   },
   get: (req, res) => {
-    console.log("getting transactions");
+    get()
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((error) => {
+      console.log('error in transactions get controller: ', error);
+      res.sendStatus(500)
+    })
   },
   update: (req, res) => {
-    console.log("updating transaction");
+    update(req)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch((error) => {
+      console.log('error in transactions update controller: ', error);
+      res.sendStatus(500)
+    })
   },
   remove: (req, res) => {
-    console.log("removing transaction");
+    remove(req)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch((error) => {
+      console.log('error in transactions remove controller: ', error);
+      res.sendStatus(500)
+    })
   }
 };

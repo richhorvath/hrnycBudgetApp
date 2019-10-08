@@ -1,4 +1,4 @@
-const {get, add, update, remove} = require("../models/accounts");
+const {get, add, update, remove} = require("../models/accounts.js");
 
 module.exports = {
   add: (req, res) => {
@@ -12,12 +12,33 @@ module.exports = {
     })
   },
   get: (req, res) => {
-    console.log("getting accounts");
+    get()
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((error) => {
+      console.log('error in account get controller: ', error);
+      res.sendStatus(500)
+    })
   },
   update: (req, res) => {
-    console.log("updating account");
+    update(req)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch((error) => {
+      console.log('error in account update controller: ', error);
+      res.sendStatus(500)
+    })
   },
   remove: (req, res) => {
-    console.log("removing account");
+    remove(req)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch((error) => {
+      console.log('error in account remove controller: ', error);
+      res.sendStatus(500)
+    })
   }
 };

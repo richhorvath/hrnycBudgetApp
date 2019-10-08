@@ -1,14 +1,44 @@
+const {get, add, update, remove} = require("../models/categories.js");
+
 module.exports = {
   add: (req, res) => {
-    console.log("adding category");
+    add(req)
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch((error) => {
+      console.log("error in categories add controller: ", error);
+      res.sendStatus(500);
+    })
   },
   get: (req, res) => {
-    console.log("getting categories");
+    get()
+    .then((data) => {
+      res.send(data)
+    })
+    .catch((error) => {
+      console.log('error in categories get controller: ', error);
+      res.sendStatus(500)
+    })
   },
   update: (req, res) => {
-    console.log("updating category");
+    update(req)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch((error) => {
+      console.log('error in categories update controller: ', error);
+      res.sendStatus(500)
+    })
   },
   remove: (req, res) => {
-    console.log("removing category");
+    remove(req)
+    .then(() => {
+      res.sendStatus(200)
+    })
+    .catch((error) => {
+      console.log('error in categories remove controller: ', error);
+      res.sendStatus(500)
+    })
   }
 };
