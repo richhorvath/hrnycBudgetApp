@@ -15,23 +15,20 @@ const TransactionList = props => {
         </tr>
       </thead>
       <tbody>
+      {this.props.map((transaction) => {
+        return (
         <tr>
-          <td>1</td>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <td>{transaction.id}</td>
+          <td>{transaction.date}</td>
+          <td>{transaction.description}</td>
+          <td>{transaction.amount}</td>
+          <td>{this.props.categories[transaction.category_id]}</td>
+          <td>{this.props.accounts[transaction.account_id]}</td>
         </tr>
-        <tr>
-          <td>2</td>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td colSpan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
+        )
+        })
+      }
+        
       </tbody>
     </Table>
   );
