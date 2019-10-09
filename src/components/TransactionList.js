@@ -28,7 +28,6 @@ const TransactionList = props => {
         )
         })
       }
-        
       </tbody>
     </Table>
   );
