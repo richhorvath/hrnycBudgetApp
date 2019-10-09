@@ -8,7 +8,11 @@ class Newtransation extends React.Component {
             account: null,
             cat: null,
             des: '',
-            amount: null
+            amount: null,
+            categories: [],
+            accounts: [],
+            defaultCat : 'category',
+            defaultAccount : 'account'
         }
 
         this.handleAccountChange = this.handleAccountChange.bind(this);
@@ -16,8 +20,35 @@ class Newtransation extends React.Component {
         this.handleCatChange = this.handleCatChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAmountChange = this.handleAmountChange.bind(this);
+        this.structureAccounts = this.structureAccounts.bind(this);
+        this.structureCats = this.structureCats.bind(this);
     }
 
+
+    componentDidMount() {
+        this.structureCats()
+        this.structureAccounts()
+    }
+
+    structureCats() {
+        var catArray = [];
+        for(var id in this.props.categories){
+            catArray.push({label: this.props.categories[id].description, value: id})
+        }
+        this.setState({
+            categories: catArray
+        })
+    }
+
+    structureAccounts() {
+        var accountArray = [];
+        for(var id in this.props.accounts){
+            accountArray.push({label: this.props.accounts[id].description, value: id})
+        }
+        this.setState({
+            accounts: accountArray
+        })
+    }
 
     handleCatChange(e) {
         this.setState({
@@ -47,7 +78,7 @@ class Newtransation extends React.Component {
     }
 
     handleSubmit(e) {
-        e.preventDefault();
+        e.preventDefault()
         var info = {
             description: this.state.des,
             amount: this.state.amount
@@ -63,41 +94,30 @@ class Newtransation extends React.Component {
         .then(() => {
             this.setState({
                 des: '',
-                amount: null,
+                amount: '',
                 cat: null,
                 account: null
             })
-            this.props.updateTransactions()
+            Promise.resolve(this.props.updateTransactions())
         })
         .catch((err) => {
             console.log("error in post in handleSubmit of Newtransation: ", err)
         })
+        
     }
+
 
 
     render() {
         return (
             <div style={{padding: '10px', position: 'center'}}>
-                
                     <div>Add a New Transaction:</div>
                 <form onSubmit={this.handleSubmit}>
-                    <input style={{width: '500px', margin:"0px 5px 0px 5px"}} type="text" placeholder="Description" onChange={this.handleDesChange}/>
-                    <input style={{width: '100px', margin:"0px 5px 0px 5px"}} type="number" placeholder="Amount" onChange={this.handleAmountChange}/>
-                    <select value={'Category'} onChange={this.handleCatChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}}>
-                            {this.props.categories.map((cat) => {
-                                return (
-                                    <option value={cat.id}>{cat.description}</option>
-                                )
-                            })}
-                        </select>
-                        <select value={"Account"} onChange={this.handleAccountChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}}>
-                            {this.props.accounts.map((account) => {
-                                return (
-                                    <option value={account.id}>{account.description}</option>
-                                )
-                            })}
-                        </select>
-                        <button onClick={this.handleSubmit} style={{margin:"0px 5px 0px 5px"}}>Add</button>
+                    <input style={{width: '500px', margin:"0px 5px 0px 5px"}} type="text" placeholder="Description" onChange={this.handleDesChange} value={this.state.des}/>
+                    <input style={{width: '100px', margin:"0px 5px 0px 5px"}} type="number" placeholder="Amount" onChange={this.handleAmountChange} value={this.state.amount}/>
+                    <select value={this.state.defaultCat} onChange={this.handleCatChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} options={this.state.categories}/>
+                    <select value={this.state.defaultAccount} onChange={this.handleAccountChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} options={this.state.accounts}/>
+                    <button onClick={this.handleSubmit} style={{margin:"0px 5px 0px 5px"}}>Add</button>
                 </form>
                 
             </div>
