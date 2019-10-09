@@ -22,10 +22,10 @@ class App extends React.Component {
 
   }
 
-  componentDidMount() {
-    this.getCategories();
-    this.getAccounts();
-    this.getTransactions();
+  componentWillMount() {
+    this.getCategories()
+    this.getAccounts()
+    this.getTransactions()
   }
 
   getCategories() {
@@ -63,6 +63,7 @@ class App extends React.Component {
   getTransactions() {
     axios.get('/api/transactions')
     .then((data) => {
+      console.log('transactions: ', data.data)
       this.setState({
         transactions: data.data
       })
@@ -93,10 +94,10 @@ class App extends React.Component {
           <h2>Transactions</h2>
         </Row>
         <Row>
-          <Newtransaction categories={this.state.categories} accounts={this.state.accounts} updateTransactions={this.state.getTransactions}/>
+          <Newtransaction categories={this.state.categories} accounts={this.state.accounts} updateTransactions={this.getTransactions}/>
         </Row>
         <Row>
-          <TransactionList transactions={this.state.transactions}/>
+          <TransactionList transactions={this.state.transactions} categories={this.state.categories} accounts={this.state.accounts}/>
         </Row>
       </Container>
     );
