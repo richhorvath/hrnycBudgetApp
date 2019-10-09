@@ -17,6 +17,7 @@ CREATE TABLE transact (
 CREATE TABLE categories (
     id int NOT NULL AUTO_INCREMENT,
     description varchar(50) NOT NULL,
+    total decimal(10, 2) default 0 NOT NULL,     
     budget int,
     PRIMARY KEY (id)
 );

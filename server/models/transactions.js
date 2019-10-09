@@ -19,8 +19,13 @@ module.exports = {
       "UPDATE accounts SET accounts.total= accounts.total + ? WHERE accounts.id = ? ",
       [req.body.amount, req.body.account_id]
     );
+    let categoryUpdate = SqlString.format(
+      "UPDATE categories SET categories.total= categories.total + ? WHERE categories.id = ? ",
+      [req.body.amount, req.body.category_id]
+    );
     promises.push(queryPromise(transactionQuery));
     promises.push(queryPromise(accountUpdate));
+    promises.push(queryPromise(categoryUpdate));
 
     return Promise.all(promises);
   },
