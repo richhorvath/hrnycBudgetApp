@@ -101,4 +101,4 @@ class Newtransation extends React.Component {
 
 }
 
-module.exports = Newtransation;
+export default Newtransation;

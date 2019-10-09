@@ -4,7 +4,7 @@ import { Container, Row, Col, Jumbotron, Button } from "react-bootstrap";
 import Graph from "./components/Graph.js";
 import TransactionList from "./components/TransactionList";
 import BudgetList from "./components/BudgetList";
-import Newtransaction from "/components/Newtransaction";
+import Newtransaction from "./components/Newtransaction";
 import axios from "axios";
 
 class App extends React.Component {
