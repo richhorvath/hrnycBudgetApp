@@ -115,8 +115,8 @@ class Newtransation extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <input style={{width: '500px', margin:"0px 5px 0px 5px"}} type="text" placeholder="Description" onChange={this.handleDesChange} value={this.state.des}/>
                     <input style={{width: '100px', margin:"0px 5px 0px 5px"}} type="number" placeholder="Amount" onChange={this.handleAmountChange} value={this.state.amount}/>
-                    <select value={defaultCat} onChange={this.handleCatChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} options={this.state.categories}/>
-                    <select value={defaultAccount} onChange={this.handleAccountChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} options={this.state.accounts}/>
+                    <select value={this.state.defaultCat} onChange={this.handleCatChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} options={this.state.categories}/>
+                    <select value={this.state.defaultAccount} onChange={this.handleAccountChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} options={this.state.accounts}/>
                     <button onClick={this.handleSubmit} style={{margin:"0px 5px 0px 5px"}}>Add</button>
                 </form>
                 
