@@ -15,7 +15,7 @@ const TransactionList = props => {
         </tr>
       </thead>
       <tbody>
-      {this.props.transactions.map((transaction) => {
+      {props.transactions.map((transaction) => {
         return (
         <tr>
           <td>{transaction.id}</td>
