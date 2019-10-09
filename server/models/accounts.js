@@ -23,7 +23,7 @@ module.exports = {
     return queryPromise(query);
   },
 
-  removCategorye: req => {
+  removCategory: req => {
     let query = SqlString.format(
       "DELETE FROM accounts WHERE id=?",
       req.body.id

@@ -4,9 +4,11 @@ const accountRoutes = require("./routes/accounts.js");
 const categoryRoutes = require("./routes/categories.js");
 const transactionRoutes = require("./routes/transactions.js");
 const morgan = require("morgan");
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
+const dateParser = require("./middleware/dateParser");
 
 app.use(bodyParser.json());
+app.use(dateParser);
 app.use(morgan("tiny"));
 
 app.use(express.static("dist"));
