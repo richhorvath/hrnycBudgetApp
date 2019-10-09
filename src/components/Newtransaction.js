@@ -15,6 +15,7 @@ class Newtransation extends React.Component {
         this.handleDesChange = this.handleDesChange.bind(this);
         this.handleCatChange = this.handleCatChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleAmountChange = this.handleAmountChange.bind(this);
     }
 
 
@@ -32,12 +33,14 @@ class Newtransation extends React.Component {
     }
 
     handleDesChange(e) {
+        console.log("des change: ", e.target.value)
         this.setState({
             des: e.target.value
         })
     }
 
     handleAmountChange(e) {
+        console.log('amount change: ', e.target.value);
         this.setState({
             amount: e.target.value
         })
@@ -47,11 +50,16 @@ class Newtransation extends React.Component {
         e.preventDefault();
         var info = {
             description: this.state.des,
-            amount: this.state.amount,
-            category_id: this.state.cat,
-            account_id: this.state.account
+            amount: this.state.amount
         }
-        axios.post('/api/transaction', info)
+        if(this.cat){
+            info.category_id = this.cat
+        }
+        if(this.account){
+            info.account_id = this.account
+        }
+        console.log('info: ', info);
+        axios.post('/api/transactions', info)
         .then(() => {
             this.setState({
                 des: '',
@@ -59,6 +67,7 @@ class Newtransation extends React.Component {
                 cat: null,
                 account: null
             })
+            this.props.updateTransactions()
         })
         .catch((err) => {
             console.log("error in post in handleSubmit of Newtransation: ", err)
@@ -68,34 +77,30 @@ class Newtransation extends React.Component {
 
     render() {
         return (
-            <tr>
+            <div style={{padding: '10px', position: 'center'}}>
+                
+                    <div>Add a New Transaction:</div>
                 <form onSubmit={this.handleSubmit}>
-
-                    <td><input type="text" placeholder="Description" onChange={this.handleDesChange}/></td>
-                    <td><input type="number" placeholder="Amount" onChange={this.handleAmountChange}/></td>
-                    <td>
-                        <select placeholder="Category" onChange={this.handleCatChange}>
+                    <input style={{width: '500px', margin:"0px 5px 0px 5px"}} type="text" placeholder="Description" onChange={this.handleDesChange}/>
+                    <input style={{width: '100px', margin:"0px 5px 0px 5px"}} type="number" placeholder="Amount" onChange={this.handleAmountChange}/>
+                    <select value={'Category'} onChange={this.handleCatChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}}>
                             {this.props.categories.map((cat) => {
                                 return (
                                     <option value={cat.id}>{cat.description}</option>
                                 )
                             })}
                         </select>
-                    </td>
-                    <td>
-                        <select placeholder="Account" onChange={this.handleAccountChange}>
+                        <select value={"Account"} onChange={this.handleAccountChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}}>
                             {this.props.accounts.map((account) => {
                                 return (
                                     <option value={account.id}>{account.description}</option>
                                 )
                             })}
                         </select>
-                    </td>
-                    <td>
-                        <button onClick={this.handleSubmit}>Add Transaction</button>
-                    </td>
+                        <button onClick={this.handleSubmit} style={{margin:"0px 5px 0px 5px"}}>Add</button>
                 </form>
-            </tr>
+                
+            </div>
         )
     }
 

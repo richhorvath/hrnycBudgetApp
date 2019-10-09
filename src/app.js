@@ -11,8 +11,8 @@ class App extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      categories: [],
-      accounts: [],
+      categories: {},
+      accounts: {},
       transactions: [] 
     }
 
@@ -31,8 +31,12 @@ class App extends React.Component {
   getCategories() {
     axios.get('/api/categories')
     .then((data) => {
+      var obj = {};
+      data.data.forEach((cat) => {
+        obj[cat.id] ={ description: cat.description, total: cat.total, budget: cat.budget};
+      })
       this.setState({
-        categories: data.data
+        categories: obj
       })
     })
     .catch((error) => {
@@ -43,8 +47,12 @@ class App extends React.Component {
   getAccounts() {
     axios.get('/api/accounts')
     .then((data) => {
+      var obj = {};
+      data.data.forEach((account) => {
+        obj[account.id] = {description: account.description, account_type: account.account_type, total: account.total};
+      })
       this.setState({
-        accounts: data.data
+        accounts: obj
       })
     })
     .catch((error) => {
@@ -85,7 +93,7 @@ class App extends React.Component {
           <h2>Transactions</h2>
         </Row>
         <Row>
-          <Newtransaction categories={this.state.categories} accounts={this.state.accounts}/>
+          <Newtransaction categories={this.state.categories} accounts={this.state.accounts} updateTransactions={this.state.getTransactions}/>
         </Row>
         <Row>
           <TransactionList transactions={this.state.transactions}/>
