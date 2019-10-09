@@ -29,3 +29,9 @@ CREATE TABLE accounts (
     PRIMARY KEY (id)
 );
 
+INSERT INTO categories (description, budget) VALUES ("Auto Cost", 600);
+INSERT INTO categories (description, budget) VALUES ("Monthly Revenue", 1500);
+INSERT INTO transact (amount, description, category_id, account_id) VALUES (200, "auto payment", 1, 1);
+INSERT INTO transact (amount, description, category_id, account_id) VALUES (500, "paycheck", 2, 2);
+INSERT INTO accounts (description, account_type) VALUES ("Capital One", "debit");
+INSERT INTO accounts (description, account_type) VALUES ("Capital One Bank Account ", "credit");
