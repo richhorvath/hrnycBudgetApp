@@ -1,4 +1,5 @@
-import React from "react"
+import React from "react";
+import axios from "axios"
 
 class Newtransation extends React.Component {
     constructor(props){
