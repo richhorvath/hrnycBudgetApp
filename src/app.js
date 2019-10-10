@@ -22,65 +22,55 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.getCategories();
-    this.getAccounts();
-    this.getTransactions();
+    Promise.all([this.getCategories(),
+    this.getAccounts(),
+    this.getTransactions()])
+    .then(() => console.log('worked'))
+    .catch((failed) => console.log('failed: ', failed))
   }
 
   getCategories() {
-    axios
-      .get("/api/categories")
-      .then(data => {
-        var obj = {};
-        data.data.forEach(cat => {
-          obj[cat.id] = {
-            description: cat.description,
-            total: cat.total,
-            budget: cat.budget
-          };
-        });
-        this.setState({
-          categories: obj
-        });
+   return (axios.get('/api/categories')
+    .then((data) => {
+      var obj = {};
+      data.data.forEach((cat) => {
+        obj[cat.id] ={ description: cat.description, total: cat.total, budget: cat.budget};
       })
-      .catch(error => {
-        console.log("error in getting categories: ", error);
-      });
+      this.setState({
+        categories: obj
+      })
+    })
+    .catch((error) => {
+      console.log('error in getting categories: ', error);
+    }))
   }
 
   getAccounts() {
-    axios
-      .get("/api/accounts")
-      .then(data => {
-        var obj = {};
-        data.data.forEach(account => {
-          obj[account.id] = {
-            description: account.description,
-            account_type: account.account_type,
-            total: account.total
-          };
-        });
-        this.setState({
-          accounts: obj
-        });
+    return (axios.get('/api/accounts')
+    .then((data) => {
+      var obj = {};
+      data.data.forEach((account) => {
+        obj[account.id] = {description: account.description, account_type: account.account_type, total: account.total};
       })
-      .catch(error => {
-        console.log("error in getting accounts: ", error);
-      });
+      this.setState({
+        accounts: obj
+      })
+    })
+    .catch((error) => {
+      console.log('error in getting accounts: ', error)
+    }))
   }
 
   getTransactions() {
-    axios
-      .get("/api/transactions")
-      .then(data => {
-        console.log("transactions: ", data.data);
-        this.setState({
-          transactions: data.data
-        });
+   return (axios.get('/api/transactions')
+    .then((data) => {
+      this.setState({
+        transactions: data.data
       })
-      .catch(error => {
-        console.log("error in getting transaction: ", error);
-      });
+    })
+    .catch((error) => {
+      console.log("error in getting transaction: ", error)
+    }))
   }
 
   render() {

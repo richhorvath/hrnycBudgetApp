@@ -1,18 +1,17 @@
 import React from "react";
 import axios from "axios"
 
+
 class Newtransation extends React.Component {
     constructor(props){
         super(props)
         this.state = {
-            account: null,
-            cat: null,
             des: '',
-            amount: null,
+            amount: '',
+            account:'',
+            cat:'',
             categories: [],
             accounts: [],
-            defaultCat : 'category',
-            defaultAccount : 'account'
         }
 
         this.handleAccountChange = this.handleAccountChange.bind(this);
@@ -25,9 +24,11 @@ class Newtransation extends React.Component {
     }
 
 
-    componentDidMount() {
-        this.structureCats()
-        this.structureAccounts()
+    componentWillReceiveProps() {
+        this.setState({
+            categories: this.structureCats(),
+            accounts: this.structureAccounts()
+        })
     }
 
     structureCats() {
@@ -35,9 +36,8 @@ class Newtransation extends React.Component {
         for(var id in this.props.categories){
             catArray.push({label: this.props.categories[id].description, value: id})
         }
-        this.setState({
-            categories: catArray
-        })
+        console.log('cats: ', catArray)
+        return catArray
     }
 
     structureAccounts() {
@@ -45,12 +45,12 @@ class Newtransation extends React.Component {
         for(var id in this.props.accounts){
             accountArray.push({label: this.props.accounts[id].description, value: id})
         }
-        this.setState({
-            accounts: accountArray
-        })
+        console.log('accounts: ', accountArray)
+        return accountArray
     }
 
     handleCatChange(e) {
+        console.log('cat: ', e.target.value)
         this.setState({
             cat: e.target.value
         })
@@ -58,20 +58,19 @@ class Newtransation extends React.Component {
     }
 
     handleAccountChange(e) {
+        console.log('acc: ', e.target.value)
         this.setState({
             account: e.target.value
         })
     }
 
     handleDesChange(e) {
-        console.log("des change: ", e.target.value)
         this.setState({
             des: e.target.value
         })
     }
 
     handleAmountChange(e) {
-        console.log('amount change: ', e.target.value);
         this.setState({
             amount: e.target.value
         })
@@ -83,20 +82,18 @@ class Newtransation extends React.Component {
             description: this.state.des,
             amount: this.state.amount
         }
-        if(this.cat){
-            info.category_id = this.cat
+        if(this.state.cat){
+            info.category_id = this.state.cat
         }
-        if(this.account){
-            info.account_id = this.account
+        if(this.state.account){
+            info.account_id = this.state.account
         }
-        console.log('info: ', info);
+        console.log("info: ", info)
         axios.post('/api/transactions', info)
         .then(() => {
             this.setState({
                 des: '',
                 amount: '',
-                cat: null,
-                account: null
             })
             Promise.resolve(this.props.updateTransactions())
         })
@@ -115,8 +112,18 @@ class Newtransation extends React.Component {
                 <form onSubmit={this.handleSubmit}>
                     <input style={{width: '500px', margin:"0px 5px 0px 5px"}} type="text" placeholder="Description" onChange={this.handleDesChange} value={this.state.des}/>
                     <input style={{width: '100px', margin:"0px 5px 0px 5px"}} type="number" placeholder="Amount" onChange={this.handleAmountChange} value={this.state.amount}/>
-                    <select value={this.state.defaultCat} onChange={this.handleCatChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} options={this.state.categories}/>
-                    <select value={this.state.defaultAccount} onChange={this.handleAccountChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} options={this.state.accounts}/>
+                    <select onChange={this.handleCatChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} value={this.state.cat}>
+                        <option selected>Category</option>
+                        {this.state.categories.map((cat) => {
+                           return <option value={cat.value}>{cat.label}</option>
+                        })}
+                    </select>
+                    <select value={this.state.account} onChange={this.handleAccountChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}}>
+                        <option selected>Account</option>
+                        {this.state.accounts.map((account) => {
+                            return <option value={account.value}>{account.label}</option>
+                        })}
+                    </select>
                     <button onClick={this.handleSubmit} style={{margin:"0px 5px 0px 5px"}}>Add</button>
                 </form>
                 
