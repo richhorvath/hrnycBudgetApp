@@ -1,41 +1,77 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Container, Row, Col, Jumbotron, Button, Tabs } from "react-bootstrap";
+import { Button, Tabs, Tab, Form } from "react-bootstrap";
+import Axios from "axios";
 
 class AccountList extends React.Component {
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
-            accounts: []
-        }
+            accounts: [], 
+            accountName: '',
+            accountType: '',
+        };
+
         this.changeAccountsFormat = this.changeAccountsFormat.bind(this)
     }
 
     componentDidMount(){
-        this.changeAccountsFormat()
+        this.setState({
+            accounts: this.changeAccountsFormat()
+        })
+    }
+
+    componentWillReceiveProps() {
+        var newAccounts = this.changeAccountsFormat()
+        console.log("newAccounts: ", newAccounts)
+        this.setState({
+            accounts: newAccounts
+        },
+        () => console.log('account state: ', this.state.accounts)
+        )
     }
 
     changeAccountsFormat() {
-        var accounts = []
+        var accountsArray = []
         for(var id in this.props.accounts){
-            accounts.push({id: id,
+            accountsArray.push({id: id,
                  description: this.props.accounts[id].description, 
                  account_type: this.props.accounts[id].account_type, 
                  total: this.props.accounts[id].total});
         }
-        this.setState({
-            accounts
-        })
+        console.log("accounts: ", accountsArray)
+        return accountsArray
     }
 
 
+    handleAccountType(e) {
+        this.setState({
+            accountType: e.target.value
+        })
+    } 
+
+    handleAccountName(e) {
+        this.setState({
+            accountName: e.target.value
+        })
+    }
+
+    handleSubmit() {
+        Axios.post('/api/accounts', {description: this.state.accountName, account_type: this.state.accountType})
+        .then(() => {
+            conole
+        })
+    }
 
     render() {
-        <Tabs> 
-            {this.state.accounts.map((account) => {
-                return (<Tab title={account.desciption}>
-                        <h4>{account.account_type}</h4>
-                        <h5>Account total: {account.total}</h5>
+        if(this.state.account){
+        return (
+        <Tabs id="accounts"> 
+            {this.state.accounts && this.state.accounts.map((account) => {
+                return (
+                        <Tab title={account.description}>
+                            {/* <h4>{account.account_type}</h4>
+                            <h5>Account total: {account.total}</h5> */}
                         </Tab>
                     )
             })}
@@ -57,5 +93,10 @@ class AccountList extends React.Component {
                 </Form>
             </Tab>
         </Tabs>
+        )
+        }
     }
 }
+
+
+export default AccountList

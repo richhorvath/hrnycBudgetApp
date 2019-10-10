@@ -108,10 +108,10 @@ class App extends React.Component {
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col md={10}>
             <h2>Budget Progress</h2>
           </Col>
-          <Col>
+          <Col md={2}>
             <h2>Accounts</h2>
           </Col>
         </Row>
@@ -119,8 +119,11 @@ class App extends React.Component {
           <NewCategory handleClick={this.addCategory} />
         </Row>
         <Row>
-          <Col>
+          <Col md={8}>
             <BudgetList categories={this.state.categories} />
+          </Col>
+          <Col md={4}>
+            <AccountList accounts={this.state.accounts}/>
           </Col>
         </Row>
         <Row>
