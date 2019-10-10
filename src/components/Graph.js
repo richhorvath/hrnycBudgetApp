@@ -49,7 +49,7 @@ const Graph = categories => {
     for (let index in categories) {
       let len = Math.floor((categories[index].total / total) * 100);
       let color = createColor();
-      let label = categories[index].description;
+      let label = categories[index].description + " " + len + "%";
       let id = categories[index].description;
       data.push({ len, color, label, id });
     }
