@@ -20,6 +20,7 @@ class App extends React.Component {
     this.getAccounts = this.getAccounts.bind(this);
     this.getCategories = this.getCategories.bind(this);
     this.getTransactions = this.getTransactions.bind(this);
+    this.addCategory = this.addCategory.bind(this);
   }
 
   componentWillMount() {
@@ -87,6 +88,15 @@ class App extends React.Component {
       });
   }
 
+  addCategory(category) {
+    axios
+      .post("api/categories", category)
+      .then(() => {
+        this.getCategories();
+      })
+      .catch(error => console.error(error));
+  }
+
   render() {
     return (
       <Container className="justify-content-lg-center">
@@ -100,7 +110,7 @@ class App extends React.Component {
           <h2>Budget Progress</h2>
         </Row>
         <Row>
-          <NewCategory />
+          <NewCategory handleClick={this.addCategory} />
         </Row>
         <Row>
           <Col>
