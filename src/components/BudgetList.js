@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, ProgressBar } from "react-bootstrap";
+import { Table, ProgressBar, Card } from "react-bootstrap";
 
 class BudgetList extends Component {
   constructor(props) {
