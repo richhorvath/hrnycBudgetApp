@@ -26,10 +26,11 @@ const TransactionList = props => {
         } else {
           var account = props.accounts[transaction.account_id].description
         }
+        var date = transaction.date.split("T")[0];
         return (
         <tr>
           <td>{transaction.id}</td>
-          <td>{transaction.date}</td>
+          <td>{date}</td>
           <td>{transaction.description}</td>
           <td>{transaction.amount}</td>
           <td>{cat}</td>
