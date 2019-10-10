@@ -7,45 +7,14 @@ class AccountList extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            accounts: [], 
             accountName: '',
-            accountType: '',
+            accountType: 'Debit',
         };
 
-        this.changeAccountsFormat = this.changeAccountsFormat.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+       
         this.handleAccountType = this.handleAccountType.bind(this)
         this.handleAccountName = this.handleAccountName.bind(this)
     }
-
-    componentDidMount(){
-        this.setState({
-            accounts: this.changeAccountsFormat()
-        })
-    }
-
-    componentWillReceiveProps() {
-        var newAccounts = this.changeAccountsFormat()
-        console.log("newAccounts: ", newAccounts)
-        this.setState({
-            accounts: newAccounts
-        },
-        () => console.log('account state: ', this.state.accounts)
-        )
-    }
-
-    changeAccountsFormat() {
-        var accountsArray = []
-        for(var id in this.props.accounts){
-            accountsArray.push({id: id,
-                 description: this.props.accounts[id].description, 
-                 account_type: this.props.accounts[id].account_type, 
-                 total: this.props.accounts[id].total});
-        }
-        console.log("accounts: ", accountsArray)
-        return accountsArray
-    }
-
 
     handleAccountType(e) {
         this.setState({
@@ -59,21 +28,19 @@ class AccountList extends React.Component {
         })
     }
 
-    handleSubmit(e) {
-        e.preventDefault()
-        Axios.post('/api/accounts', {description: this.state.accountName, account_type: this.state.accountType})
-        .then(() => {
-            Promise.resolve(this.props.updateAccounts())
-        })
-        .catch((error) => {
-            console.log('error in submitting new account: ', error)
-        })
-    }
+    
 
     render() {
+        var accountsArray = []
+        for(var id in this.props.accounts){
+            accountsArray.push({id: id,
+                 description: this.props.accounts[id].description, 
+                 account_type: this.props.accounts[id].account_type, 
+                 total: this.props.accounts[id].total});
+        }
         return (
         <Tabs id="accounts"> 
-            {this.state.accounts && this.state.accounts.map((account) => {
+            {accountsArray.map((account) => {
                 return (
                         <Tab eventKey={account.id} title={account.description}>
                             <h4 style={{ margin:"10px"}}>
@@ -84,7 +51,7 @@ class AccountList extends React.Component {
                     )
             })}
             <Tab eventKey='form' title="Add Account">
-                <Form onSubmit={this.handleSubmit}>
+                <Form>
                     <Form.Group>
                         <Form.Label style={{margin:"2px 0px 2px 0px"}}>Account Name</Form.Label>
                         <Form.Control value={this.state.accountName} type="text" placeholder="Enter Account Name" onChange={this.handleAccountName}/>
@@ -96,7 +63,7 @@ class AccountList extends React.Component {
                             <option value="Credit">Credit</option>
                         </Form.Control>
                     </Form.Group>
-                    <Button type="submit" onClick={this.handleSubmit}>
+                    <Button onClick={() => this.props.handleClick({description: this.state.accountName, account_type: this.state.accountType})}>
                         Submit
                     </Button>
                 </Form>

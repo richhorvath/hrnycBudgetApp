@@ -22,6 +22,7 @@ class App extends React.Component {
     this.getCategories = this.getCategories.bind(this);
     this.getTransactions = this.getTransactions.bind(this);
     this.addCategory = this.addCategory.bind(this);
+    this.addAccount = this.addAccount.bind(this)
   }
 
   componentWillMount() {
@@ -93,10 +94,20 @@ class App extends React.Component {
     axios
       .post("api/categories", category)
       .then(() => {
-        this.getCategories();
+        Promise.resolve(this.getCategories())
       })
       .catch(error => console.error(error));
   }
+
+  addAccount(info) {
+    axios.post('/api/accounts', info)
+    .then(() => {
+        Promise.resolve(this.getAccounts())
+    })
+    .catch((error) => {
+        console.log('error in submitting new account: ', error)
+    })
+}
 
   render() {
     return (
@@ -123,7 +134,7 @@ class App extends React.Component {
             <BudgetList categories={this.state.categories} />
           </Col>
           <Col md={4}>
-            <AccountList accounts={this.state.accounts} updateAccounts={this.getAccounts}/>
+            <AccountList accounts={this.state.accounts} handleClick={this.addAccount}/>
           </Col>
         </Row>
         <Row>

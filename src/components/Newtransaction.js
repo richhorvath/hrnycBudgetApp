@@ -9,9 +9,7 @@ class Newtransation extends React.Component {
             des: '',
             amount: '',
             account:'',
-            cat:'',
-            categories: [],
-            accounts: [],
+            cat:''
         }
 
         this.handleAccountChange = this.handleAccountChange.bind(this);
@@ -19,35 +17,7 @@ class Newtransation extends React.Component {
         this.handleCatChange = this.handleCatChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleAmountChange = this.handleAmountChange.bind(this);
-        this.structureAccounts = this.structureAccounts.bind(this);
-        this.structureCats = this.structureCats.bind(this);
-    }
-
-
-    componentWillReceiveProps() {
-        this.setState({
-            categories: this.structureCats(),
-            accounts: this.structureAccounts()
-        })
-    }
-
-    structureCats() {
-        var catArray = [];
-        for(var id in this.props.categories){
-            catArray.push({label: this.props.categories[id].description, value: id})
-        }
-        console.log('cats: ', catArray)
-        return catArray
-    }
-
-    structureAccounts() {
-        var accountArray = [];
-        for(var id in this.props.accounts){
-            accountArray.push({label: this.props.accounts[id].description, value: id})
-        }
-        console.log('accounts: ', accountArray)
-        return accountArray
-    }
+    }    
 
     handleCatChange(e) {
         console.log('cat: ', e.target.value)
@@ -108,6 +78,14 @@ class Newtransation extends React.Component {
 
 
     render() {
+        var catArray = [];
+        for(var id in this.props.categories){
+            catArray.push({label: this.props.categories[id].description, value: id})
+        }
+        var accountArray = [];
+        for(var id in this.props.accounts){
+            accountArray.push({label: this.props.accounts[id].description, value: id})
+        }
         return (
             <div style={{padding: '10px', position: 'center'}}>
                     <div>Add a New Transaction:</div>
@@ -116,17 +94,17 @@ class Newtransation extends React.Component {
                     <input style={{width: '100px', margin:"0px 5px 0px 5px"}} type="number" placeholder="Amount" onChange={this.handleAmountChange} value={this.state.amount}/>
                     <select onChange={this.handleCatChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}} value={this.state.cat}>
                         <option selected>Category</option>
-                        {this.state.categories.map((cat) => {
+                        {catArray.map((cat) => {
                            return <option value={cat.value}>{cat.label}</option>
                         })}
                     </select>
                     <select value={this.state.account} onChange={this.handleAccountChange} style={{height: '30px', width: '150px', margin:"0px 5px 0px 5px"}}>
                         <option selected>Account</option>
-                        {this.state.accounts.map((account) => {
+                        {accountArray.map((account) => {
                             return <option value={account.value}>{account.label}</option>
                         })}
                     </select>
-                    <button onClick={this.handleSubmit} style={{margin:"0px 5px 0px 5px"}}>Add</button>
+                    <button onSubmit={this.handleSubmit} style={{margin:"0px 5px 0px 5px"}}>Add</button>
                 </form>
                 
             </div>
