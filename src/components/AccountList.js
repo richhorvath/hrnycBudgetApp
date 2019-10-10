@@ -8,7 +8,7 @@ class AccountList extends React.Component {
         super(props);
         this.state = {
             accountName: '',
-            accountType: 'Debit',
+            accountType: 'Select',
         };
 
        
@@ -59,11 +59,18 @@ class AccountList extends React.Component {
                     <Form.Group>
                     <Form.Label style={{margin:"2px 0px 2px 0px"}}>Account Type</Form.Label>
                         <Form.Control value={this.state.accountType} as="select" onChange={this.handleAccountType}>
+                            <option selected>Select</option>
                             <option value="Debit">Debit</option>
                             <option value="Credit">Credit</option>
                         </Form.Control>
                     </Form.Group>
-                    <Button onClick={() => this.props.handleClick({description: this.state.accountName, account_type: this.state.accountType})}>
+                    <Button onClick={() => {
+                        this.props.handleClick({description: this.state.accountName, account_type: this.state.accountType})
+                        this.setState({
+                            accountName: '',
+                            accountType: 'Select'
+                        })
+                        }}>
                         Submit
                     </Button>
                 </Form>
