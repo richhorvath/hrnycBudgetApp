@@ -46,7 +46,7 @@ class AccountList extends React.Component {
                             <h4 style={{ margin:"10px"}}>
                             {account.account_type}
                             </h4>                            
-                            <h5 style={{ margin:"10px"}}>Account total: ${account.total}</h5>
+                            <h5 style={{ margin:"10px"}}>Total Spent: ${account.total}</h5>
                         </Tab>
                     )
             })}
