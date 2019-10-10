@@ -6,7 +6,7 @@ export default class NewCategory extends Component {
     super(props);
     this.state = {
       description: "",
-      budget: 0
+      budget: ""
     };
   }
   render() {
@@ -20,15 +20,21 @@ export default class NewCategory extends Component {
             <Card.Body>
               <input
                 placeholder="description"
+                value={this.state.description}
                 onChange={event => {
-                  this.state.description = event.target.value;
+                  this.setState({
+                    description: event.target.value
+                  }) 
                 }}
               ></input>
               <input
                 placeholder="amount"
                 type="number"
+                value={this.state.budget}
                 onChange={event => {
-                  this.state.budget = event.target.value;
+                  this.setState({
+                    budget: event.target.value
+                  })
                 }}
               ></input>
               <Button
@@ -39,6 +45,10 @@ export default class NewCategory extends Component {
                     budget: this.state.budget
                   };
                   this.props.handleClick(category);
+                  this.setState({
+                    description: "",
+                    budget: ""
+                  })
                 }}
               >
                 +

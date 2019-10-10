@@ -103,23 +103,31 @@ class App extends React.Component {
   }
 
   addCategory(category) {
-    axios
-      .post("api/categories", category)
-      .then(() => {
-        Promise.resolve(this.getCategories());
-      })
-      .catch(error => console.error(error));
+    if (!category.description || !category.budget) {
+      window.alert("Invalid New Category");
+    } else {
+      axios
+        .post("api/categories", category)
+        .then(() => {
+          Promise.resolve(this.getCategories());
+        })
+        .catch(error => console.error(error));
+    }
   }
 
   addAccount(info) {
-    axios
-      .post("/api/accounts", info)
-      .then(() => {
-        Promise.resolve(this.getAccounts());
-      })
-      .catch(error => {
-        console.log("error in submitting new account: ", error);
-      });
+    if (info.account_type === "Select" || info.description === "") {
+      window.alert("Please enter an account name and type.");
+    } else {
+      axios
+        .post("/api/accounts", info)
+        .then(() => {
+          Promise.resolve(this.getAccounts());
+        })
+        .catch(error => {
+          console.log("error in submitting new account: ", error);
+        });
+    }
   }
 
   render() {
