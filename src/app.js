@@ -8,6 +8,7 @@ import AccountList from "./components/AccountList"
 import Newtransaction from "./components/Newtransaction";
 import axios from "axios";
 import NewCategory from "./components/NewCategory";
+import ReactSVG from "react-svg";
 
 class App extends React.Component {
   constructor(props) {
@@ -34,6 +35,13 @@ class App extends React.Component {
       .then(() => console.log("worked"))
       .catch(failed => console.log("failed: ", failed));
   }
+  componentDidMount() {
+    // Graph(this.state.categories);
+  }
+
+  // componentWillUpdate() {
+  //   Graph(this.state.categories);
+  // }
 
   getCategories() {
     return axios
@@ -50,6 +58,7 @@ class App extends React.Component {
         this.setState({
           categories: obj
         });
+        Graph(this.state.categories);
       })
       .catch(error => {
         console.log("error in getting categories: ", error);
@@ -114,9 +123,9 @@ class App extends React.Component {
       <Container className="justify-content-lg-center">
         <Row className="justify-content-center">
           <h1>Best Budget</h1>
-          <Col md={12}>
-            <Graph />
-          </Col>
+        </Row>
+        <Row id="graphrow" className="justify-content-center">
+          <ReactSVG id="chart" />
         </Row>
         <Row>
           <Col md={10}>
