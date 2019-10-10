@@ -100,6 +100,9 @@ class App extends React.Component {
   }
 
   addAccount(info) {
+    if((info.account_type === 'Select') || (info.description === '')){
+      window.alert("Please enter an account name and type.")
+    } else {
     axios.post('/api/accounts', info)
     .then(() => {
         Promise.resolve(this.getAccounts())
@@ -107,6 +110,7 @@ class App extends React.Component {
     .catch((error) => {
         console.log('error in submitting new account: ', error)
     })
+  }
 }
 
   render() {
