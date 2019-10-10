@@ -4,6 +4,7 @@ import { Container, Row, Col, Jumbotron, Button } from "react-bootstrap";
 import Graph from "./components/Graph.js";
 import TransactionList from "./components/TransactionList";
 import BudgetList from "./components/BudgetList";
+import AccountList from "./components/AccountList"
 import Newtransaction from "./components/Newtransaction";
 import axios from "axios";
 import NewCategory from "./components/NewCategory";
@@ -22,6 +23,7 @@ class App extends React.Component {
     this.getCategories = this.getCategories.bind(this);
     this.getTransactions = this.getTransactions.bind(this);
     this.addCategory = this.addCategory.bind(this);
+    this.addAccount = this.addAccount.bind(this)
   }
 
   componentWillMount() {
@@ -101,10 +103,20 @@ class App extends React.Component {
     axios
       .post("api/categories", category)
       .then(() => {
-        this.getCategories();
+        Promise.resolve(this.getCategories())
       })
       .catch(error => console.error(error));
   }
+
+  addAccount(info) {
+    axios.post('/api/accounts', info)
+    .then(() => {
+        Promise.resolve(this.getAccounts())
+    })
+    .catch((error) => {
+        console.log('error in submitting new account: ', error)
+    })
+}
 
   render() {
     return (
@@ -116,14 +128,22 @@ class App extends React.Component {
           <ReactSVG id="chart" />
         </Row>
         <Row>
-          <h2>Budget Progress</h2>
+          <Col md={10}>
+            <h2>Budget Progress</h2>
+          </Col>
+          <Col md={2}>
+            <h2>Accounts</h2>
+          </Col>
         </Row>
         <Row>
           <NewCategory handleClick={this.addCategory} />
         </Row>
         <Row>
-          <Col>
+          <Col md={8}>
             <BudgetList categories={this.state.categories} />
+          </Col>
+          <Col md={4}>
+            <AccountList accounts={this.state.accounts} handleClick={this.addAccount}/>
           </Col>
         </Row>
         <Row>
@@ -134,6 +154,8 @@ class App extends React.Component {
             categories={this.state.categories}
             accounts={this.state.accounts}
             updateTransactions={this.getTransactions}
+            updateAccounts={this.getAccounts}
+            updateCategories={this.getCategories}
           />
         </Row>
         <Row>
