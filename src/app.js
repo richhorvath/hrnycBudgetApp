@@ -4,6 +4,7 @@ import { Container, Row, Col, Jumbotron, Button } from "react-bootstrap";
 import Graph from "./components/Graph.js";
 import TransactionList from "./components/TransactionList";
 import BudgetList from "./components/BudgetList";
+import AccountList from "./components/AccountList"
 import Newtransaction from "./components/Newtransaction";
 import axios from "axios";
 
@@ -83,7 +84,12 @@ class App extends React.Component {
           </Col>
         </Row>
         <Row>
-          <h2>Budget Progress</h2>
+          <Col>
+            <h2>Budget Progress</h2>
+          </Col>
+          <Col>
+            <h2>Accounts</h2>
+          </Col>
         </Row>
         <Row>
           <Col>
