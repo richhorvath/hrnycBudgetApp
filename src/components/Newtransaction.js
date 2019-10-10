@@ -96,6 +96,8 @@ class Newtransation extends React.Component {
                 amount: '',
             })
             Promise.resolve(this.props.updateTransactions())
+            Promise.resolve(this.props.updateAccounts())
+            Promise.resolve(this.props.updateCategories())
         })
         .catch((err) => {
             console.log("error in post in handleSubmit of Newtransation: ", err)

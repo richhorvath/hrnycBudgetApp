@@ -123,7 +123,7 @@ class App extends React.Component {
             <BudgetList categories={this.state.categories} />
           </Col>
           <Col md={4}>
-            <AccountList accounts={this.state.accounts}/>
+            <AccountList accounts={this.state.accounts} updateAccounts={this.getAccounts}/>
           </Col>
         </Row>
         <Row>
@@ -134,6 +134,8 @@ class App extends React.Component {
             categories={this.state.categories}
             accounts={this.state.accounts}
             updateTransactions={this.getTransactions}
+            updateAccounts={this.getAccounts}
+            updateCategories={this.getCategories}
           />
         </Row>
         <Row>
