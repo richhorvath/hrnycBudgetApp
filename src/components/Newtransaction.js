@@ -49,9 +49,11 @@ class Newtransation extends React.Component {
     handleSubmit(e) {
         e.preventDefault()
         var info = {
-            date: this.state.date,
             description: this.state.des,
             amount: this.state.amount
+        }
+        if(this.state.date){
+            info.date = this.state.date
         }
         if(this.state.cat){
             info.category_id = this.state.cat
