@@ -8,18 +8,17 @@ import Newtransaction from "./components/Newtransaction";
 import axios from "axios";
 
 class App extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       categories: {},
       accounts: {},
-      transactions: [] 
-    }
+      transactions: []
+    };
 
     this.getAccounts = this.getAccounts.bind(this);
-    this.getCategories = this.getCategories.bind(this)
-    this.getTransactions = this.getTransactions.bind(this)
-
+    this.getCategories = this.getCategories.bind(this);
+    this.getTransactions = this.getTransactions.bind(this);
   }
 
   componentWillMount() {
@@ -88,17 +87,25 @@ class App extends React.Component {
         </Row>
         <Row>
           <Col>
-            <BudgetList />
+            <BudgetList categories={this.state.categories} />
           </Col>
         </Row>
         <Row>
           <h2>Transactions</h2>
         </Row>
         <Row>
-          <Newtransaction categories={this.state.categories} accounts={this.state.accounts} updateTransactions={this.getTransactions}/>
+          <Newtransaction
+            categories={this.state.categories}
+            accounts={this.state.accounts}
+            updateTransactions={this.getTransactions}
+          />
         </Row>
         <Row>
-          <TransactionList transactions={this.state.transactions} categories={this.state.categories} accounts={this.state.accounts}/>
+          <TransactionList
+            transactions={this.state.transactions}
+            categories={this.state.categories}
+            accounts={this.state.accounts}
+          />
         </Row>
       </Container>
     );
