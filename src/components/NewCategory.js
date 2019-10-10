@@ -11,7 +11,7 @@ export default class NewCategory extends Component {
   }
   render() {
     return (
-      <Accordion>
+      <Accordion style={{margin: "5px 0px 20px 0px"}}>
         <Card>
           <Accordion.Toggle as={Card.Header} eventKey="0">
             Add Budget Category

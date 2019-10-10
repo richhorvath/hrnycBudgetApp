@@ -28,6 +28,15 @@ class BudgetList extends Component {
         </thead>
         <tbody>
           {arr.map(index => {
+            var currentBudget = (this.props.categories[index].total /
+              this.props.categories[index].budget) * 100;
+            var status = "success";
+            if(currentBudget > 60){
+              status = "warning"
+            }
+            if(currentBudget > 90){
+              status = "danger"
+            }
             return (
               <tr>
                 <td>{this.props.categories[index].description}</td>
@@ -36,11 +45,8 @@ class BudgetList extends Component {
                     <ProgressBar />
                   ) : (
                     <ProgressBar
-                      now={
-                        (this.props.categories[index].total /
-                          this.props.categories[index].budget) *
-                        100
-                      }
+                      variant={status}
+                      now={currentBudget}
                       label={
                         this.props.categories[index].total +
                         "/" +
@@ -52,24 +58,6 @@ class BudgetList extends Component {
               </tr>
             );
           })}
-          <tr>
-            <td>Entertainment</td>
-            <td>
-              <ProgressBar now={60} />
-            </td>
-          </tr>{" "}
-          <tr>
-            <td>Food</td>
-            <td>
-              <ProgressBar now={70} />
-            </td>
-          </tr>
-          <tr>
-            <td>Clothing</td>
-            <td>
-              <ProgressBar now={20} />
-            </td>
-          </tr>
         </tbody>
       </Table>
     );
