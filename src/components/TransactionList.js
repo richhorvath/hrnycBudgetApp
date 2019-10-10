@@ -2,9 +2,6 @@ import React from "react";
 import { Table } from "react-bootstrap";
 
 const TransactionList = props => {
-
-  console.log('transaction prop: ', props.transactions)
-
   return (
     <Table striped bordered hover>
       <thead>
@@ -19,7 +16,6 @@ const TransactionList = props => {
       </thead>
       <tbody>
       {props.transactions.map((transaction) => {
-        console.log('transactions: ', transaction);
         if(!transaction.category_id){
           var cat = "none"
         } else {

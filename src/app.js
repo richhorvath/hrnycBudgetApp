@@ -23,13 +23,15 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    this.getCategories()
-    this.getAccounts()
-    this.getTransactions()
+    Promise.all([this.getCategories(),
+    this.getAccounts(),
+    this.getTransactions()])
+    .then(() => console.log('worked'))
+    .catch((failed) => console.log('failed: ', failed))
   }
 
   getCategories() {
-    axios.get('/api/categories')
+   return (axios.get('/api/categories')
     .then((data) => {
       var obj = {};
       data.data.forEach((cat) => {
@@ -41,11 +43,11 @@ class App extends React.Component {
     })
     .catch((error) => {
       console.log('error in getting categories: ', error);
-    })
+    }))
   }
 
   getAccounts() {
-    axios.get('/api/accounts')
+    return (axios.get('/api/accounts')
     .then((data) => {
       var obj = {};
       data.data.forEach((account) => {
@@ -57,20 +59,19 @@ class App extends React.Component {
     })
     .catch((error) => {
       console.log('error in getting accounts: ', error)
-    })
+    }))
   }
 
   getTransactions() {
-    axios.get('/api/transactions')
+   return (axios.get('/api/transactions')
     .then((data) => {
-      console.log('transactions: ', data.data)
       this.setState({
         transactions: data.data
       })
     })
     .catch((error) => {
       console.log("error in getting transaction: ", error)
-    })
+    }))
   }
 
   render() {
