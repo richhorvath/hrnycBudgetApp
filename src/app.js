@@ -4,11 +4,12 @@ import { Container, Row, Col, Jumbotron, Button } from "react-bootstrap";
 import Graph from "./components/Graph.js";
 import TransactionList from "./components/TransactionList";
 import BudgetList from "./components/BudgetList";
-import AccountList from "./components/AccountList"
+import AccountList from "./components/AccountList";
 import Newtransaction from "./components/Newtransaction";
 import axios from "axios";
 import NewCategory from "./components/NewCategory";
 import ReactSVG from "react-svg";
+import * as d3 from "d3";
 
 class App extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class App extends React.Component {
     this.getCategories = this.getCategories.bind(this);
     this.getTransactions = this.getTransactions.bind(this);
     this.addCategory = this.addCategory.bind(this);
-    this.addAccount = this.addAccount.bind(this)
+    this.addAccount = this.addAccount.bind(this);
   }
 
   componentWillMount() {
@@ -58,6 +59,8 @@ class App extends React.Component {
         this.setState({
           categories: obj
         });
+        d3.selectAll("g > *").remove();
+        d3.select("svg").remove();
         Graph(this.state.categories);
       })
       .catch(error => {
@@ -103,20 +106,21 @@ class App extends React.Component {
     axios
       .post("api/categories", category)
       .then(() => {
-        Promise.resolve(this.getCategories())
+        Promise.resolve(this.getCategories());
       })
       .catch(error => console.error(error));
   }
 
   addAccount(info) {
-    axios.post('/api/accounts', info)
-    .then(() => {
-        Promise.resolve(this.getAccounts())
-    })
-    .catch((error) => {
-        console.log('error in submitting new account: ', error)
-    })
-}
+    axios
+      .post("/api/accounts", info)
+      .then(() => {
+        Promise.resolve(this.getAccounts());
+      })
+      .catch(error => {
+        console.log("error in submitting new account: ", error);
+      });
+  }
 
   render() {
     return (
@@ -143,7 +147,10 @@ class App extends React.Component {
             <BudgetList categories={this.state.categories} />
           </Col>
           <Col md={4}>
-            <AccountList accounts={this.state.accounts} handleClick={this.addAccount}/>
+            <AccountList
+              accounts={this.state.accounts}
+              handleClick={this.addAccount}
+            />
           </Col>
         </Row>
         <Row>
