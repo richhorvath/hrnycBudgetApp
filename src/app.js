@@ -4,6 +4,7 @@ import { Container, Row, Col, Jumbotron, Button } from "react-bootstrap";
 import Graph from "./components/Graph.js";
 import TransactionList from "./components/TransactionList";
 import BudgetList from "./components/BudgetList";
+import AccountList from "./components/AccountList"
 import Newtransaction from "./components/Newtransaction";
 import axios from "axios";
 import NewCategory from "./components/NewCategory";
@@ -107,14 +108,22 @@ class App extends React.Component {
           </Col>
         </Row>
         <Row>
-          <h2>Budget Progress</h2>
+          <Col md={10}>
+            <h2>Budget Progress</h2>
+          </Col>
+          <Col md={2}>
+            <h2>Accounts</h2>
+          </Col>
         </Row>
         <Row>
           <NewCategory handleClick={this.addCategory} />
         </Row>
         <Row>
-          <Col>
+          <Col md={8}>
             <BudgetList categories={this.state.categories} />
+          </Col>
+          <Col md={4}>
+            <AccountList accounts={this.state.accounts} updateAccounts={this.getAccounts}/>
           </Col>
         </Row>
         <Row>
@@ -125,6 +134,8 @@ class App extends React.Component {
             categories={this.state.categories}
             accounts={this.state.accounts}
             updateTransactions={this.getTransactions}
+            updateAccounts={this.getAccounts}
+            updateCategories={this.getCategories}
           />
         </Row>
         <Row>
