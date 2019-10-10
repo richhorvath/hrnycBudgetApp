@@ -6,6 +6,7 @@ import TransactionList from "./components/TransactionList";
 import BudgetList from "./components/BudgetList";
 import Newtransaction from "./components/Newtransaction";
 import axios from "axios";
+import NewCategory from "./components/NewCategory";
 
 class App extends React.Component {
   constructor(props) {
@@ -22,55 +23,68 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    Promise.all([this.getCategories(),
-    this.getAccounts(),
-    this.getTransactions()])
-    .then(() => console.log('worked'))
-    .catch((failed) => console.log('failed: ', failed))
+    Promise.all([
+      this.getCategories(),
+      this.getAccounts(),
+      this.getTransactions()
+    ])
+      .then(() => console.log("worked"))
+      .catch(failed => console.log("failed: ", failed));
   }
 
   getCategories() {
-   return (axios.get('/api/categories')
-    .then((data) => {
-      var obj = {};
-      data.data.forEach((cat) => {
-        obj[cat.id] ={ description: cat.description, total: cat.total, budget: cat.budget};
+    return axios
+      .get("/api/categories")
+      .then(data => {
+        var obj = {};
+        data.data.forEach(cat => {
+          obj[cat.id] = {
+            description: cat.description,
+            total: cat.total,
+            budget: cat.budget
+          };
+        });
+        this.setState({
+          categories: obj
+        });
       })
-      this.setState({
-        categories: obj
-      })
-    })
-    .catch((error) => {
-      console.log('error in getting categories: ', error);
-    }))
+      .catch(error => {
+        console.log("error in getting categories: ", error);
+      });
   }
 
   getAccounts() {
-    return (axios.get('/api/accounts')
-    .then((data) => {
-      var obj = {};
-      data.data.forEach((account) => {
-        obj[account.id] = {description: account.description, account_type: account.account_type, total: account.total};
+    return axios
+      .get("/api/accounts")
+      .then(data => {
+        var obj = {};
+        data.data.forEach(account => {
+          obj[account.id] = {
+            description: account.description,
+            account_type: account.account_type,
+            total: account.total
+          };
+        });
+        this.setState({
+          accounts: obj
+        });
       })
-      this.setState({
-        accounts: obj
-      })
-    })
-    .catch((error) => {
-      console.log('error in getting accounts: ', error)
-    }))
+      .catch(error => {
+        console.log("error in getting accounts: ", error);
+      });
   }
 
   getTransactions() {
-   return (axios.get('/api/transactions')
-    .then((data) => {
-      this.setState({
-        transactions: data.data
+    return axios
+      .get("/api/transactions")
+      .then(data => {
+        this.setState({
+          transactions: data.data
+        });
       })
-    })
-    .catch((error) => {
-      console.log("error in getting transaction: ", error)
-    }))
+      .catch(error => {
+        console.log("error in getting transaction: ", error);
+      });
   }
 
   render() {
@@ -84,6 +98,9 @@ class App extends React.Component {
         </Row>
         <Row>
           <h2>Budget Progress</h2>
+        </Row>
+        <Row>
+          <NewCategory />
         </Row>
         <Row>
           <Col>

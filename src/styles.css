@@ -1,2 +1,5 @@
 body {
 }
+.Card.Header {
+  background-color: white;
+}
