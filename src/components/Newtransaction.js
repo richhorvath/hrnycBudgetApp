@@ -48,6 +48,9 @@ class Newtransation extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault()
+        if((!this.state.des || !this.state.amount) || (!this.state.cat || !this.state.account)){
+            window.alert("Invalid new transaction entry.")
+        } else {
         var info = {
             description: this.state.des,
             amount: this.state.amount
@@ -76,7 +79,7 @@ class Newtransation extends React.Component {
         })
         .catch((err) => {
             console.log("error in post in handleSubmit of Newtransation: ", err)
-        })
+        })}
         
     }
 

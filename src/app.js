@@ -91,12 +91,15 @@ class App extends React.Component {
   }
 
   addCategory(category) {
-    axios
-      .post("api/categories", category)
+    if((!category.description) || (!category.budget)){
+      window.alert("Invalid New Category")
+    } else {
+    axios.post("api/categories", category)
       .then(() => {
         Promise.resolve(this.getCategories())
       })
-      .catch(error => console.error(error));
+      .catch(error => console.error(error))
+    }
   }
 
   addAccount(info) {
